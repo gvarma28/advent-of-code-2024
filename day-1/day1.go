@@ -22,6 +22,46 @@ func main() {
 	scanner := bufio.NewScanner(file)
 
 	left := []int{}
+	rightMap := make(map[int]int)
+	for scanner.Scan() {
+		line := scanner.Text()
+		nums := strings.Split(line, "   ")
+
+		leftNum, err := strconv.Atoi(nums[0])
+		if err != nil {
+			panic(err)
+		}
+		rightNum, err := strconv.Atoi(nums[1])
+		if err != nil {
+			panic(err)
+		}
+
+		left = append(left, leftNum)
+		rightMap[rightNum] = rightMap[rightNum] + 1
+	}
+
+	res := 0
+	for i := 0; i < len(left); i++ {
+		diff := left[i] * rightMap[left[i]]
+		res += diff
+	}
+
+	fmt.Println(res)
+}
+
+func part1() {
+	// open the input file
+	file, err := os.Open("input.txt")
+	if err != nil {
+		fmt.Println("Error while opening the file: ", err)
+		return
+	}
+	defer file.Close()
+
+	// scanner to read the file line by line
+	scanner := bufio.NewScanner(file)
+
+	left := []int{}
 	right := []int{}
 	for scanner.Scan() {
 		line := scanner.Text()
